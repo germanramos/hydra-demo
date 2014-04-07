@@ -15,13 +15,11 @@ cd /opt
 # Clone Hydra repositories and checkout a specific tag
 export GIT_SSH=/vagrant/vagrant-deploy-common/scripts/git_ssh.sh
 sudo chmod a+x $GIT_SSH
-if [ ! -d /opt/hydra-demo ]
-then
-    echo ssh cloning hydra_server.git...
-	cd /opt && git clone -b etcd git@github.com:innotech/hydra-demo.git && cd /opt/hydra-demo
-	# && git checkout tags/latest
-	cd /opt/hydra-demo/time && npm install
-fi
+rm -rf /opt/hydra-demo
+echo ssh cloning hydra_server.git...
+cd /opt && git clone -b etcd git@github.com:innotech/hydra-demo.git && cd /opt/hydra-demo
+# && git checkout tags/latest
+cd /opt/hydra-demo/time && npm install
 
 # Create Hydra user
 echo "Creating user"
