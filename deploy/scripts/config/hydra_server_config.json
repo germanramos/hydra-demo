@@ -1,0 +1,27 @@
+{
+	"publicUrl": "http://#{public_ip}:8080",
+	"serverPort": "8443",
+	"db" : {
+		"host" : "#{public_ip}",
+		"port" : "4001",
+		"apiVersion" : "v2",
+		"type" : "etcd"
+	},
+	"qlog" : {
+		"url" : "http://api.qlog.io:3000",
+		"clientId" : "07moV9C-Deu5FDj9",
+		"secretKey" : "RdGgiunmONiTuJpU0bZxSHAkhwoNEe6x"
+	},
+	"server_api" : {
+		"allowedOrigins" : ["*"]
+	},
+	"client_api" : {
+		"allowedOrigins" : ["*"]
+	},
+	"app" : {
+		"timeout" : 60000
+	},
+	"server" : {
+		"sync" : 10000
+	}
+}

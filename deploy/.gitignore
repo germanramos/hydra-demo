@@ -1,0 +1,6 @@
+config.rb
+scripts/autogen
+.vagrant
+provider.rb
+vagrant-deploy-common
+
