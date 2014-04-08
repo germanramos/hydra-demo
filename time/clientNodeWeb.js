@@ -1,4 +1,4 @@
-var hydra = require('../../hydra/src/hydra-node'),
+var hydra = require('./hydra-node'),
 	http = require('http'),
 	request = require('request'),
 	express = require('express'),
@@ -32,7 +32,7 @@ app.configure(function() {
 });
 
 app.get('/start/:connections', function(req, res){
-	var hydraServers = (req.query.hydras ? req.query.hydras.split(',') : ['http://1.hydra.innotechapp.com:80']);
+	var hydraServers = (req.query.hydras ? req.query.hydras.split(',') : ['http://hydra-demo-hydra1.gce.innotechapp.com:8080']);
 	service = req.query.app || 'time';
 	startRequests((parseInt(req.params.connections,10) || 1), hydraServers);
 	res.send(200, {host: req.headers.host, app: service, connections: conns, started: !stop});
@@ -54,12 +54,14 @@ console.log('Stress-time listening on port', port);
 function startRequests(connections, hydraServers) {
 	console.log('Starting', connections, 'connections for', service, 'on', hydraServers);
 	stop = false;
+	console.log("HYDRASERVERS",hydraServers)
 	hydra.config(hydraServers);
-	updateServers();
+	updateServers()
 
 	for ( var i = 0; i < connections; i++) {
 		setTimeout(makeRequest, Math.floor(Math.random()*randomWait));
 	}
+	
 }
 
 function blacklistAdd(url) {
@@ -102,7 +104,9 @@ function updateServers() {
 }
 
 function makeRequest() {
+	//console.log("Making request")
 	if (servers === null || servers.length < 1) {
+		console.log("Servers null");
 		if(!stop) setTimeout(makeRequest, errorWait);
 		return;
 	}

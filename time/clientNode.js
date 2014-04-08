@@ -1,5 +1,5 @@
 require('http').globalAgent.maxSockets = 100000;
-var hydra = require("../../hydra/src/hydra-node");
+var hydra = require("./hydra-node");
 var request = require("request");
 
 var service = "time";
@@ -10,7 +10,7 @@ var randomWait = 5000;
 var blacklistTime = 5000;
 
 var servers = [];
-hydra.config([ "http://hydra.cloud1.com:7001" ]);
+hydra.config([ "http://hydra-demo-hydra1.gce.innotechapp.com:8080" ]);
 var blacklist = [];
 
 updateServers();
