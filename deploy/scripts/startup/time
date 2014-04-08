@@ -10,8 +10,8 @@
 
 APP_NAME=time
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/bin/forever.sh
-DAEMON_ARGS="node /opt/hydra-demo/time/server.js 0.0.0.0 8080 5000"
+DAEMON=/usr/bin/node
+DAEMON_ARGS="/opt/hydra-demo/time/server.js 0.0.0.0 8080 5000"
 RUNDIR=/opt/hydra-demo/time
 USER=time
 GROUP=time
@@ -32,7 +32,9 @@ start)
     fi
     sudo chown -R $USER:$GROUP /var/log/${APP_NAME}
     cd $RUNDIR
-    sudo -u "$USER" $DAEMON $DAEMON_ARGS &>$LOG_FILE &
+    #sudo -u "$USER" $DAEMON $DAEMON_ARGS &>$LOG_FILE &
+    ## WORKAROUND: RUN AS ROOT IN ORDER TO GET PID
+    $DAEMON $DAEMON_ARGS &>$LOG_FILE &
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
     then
