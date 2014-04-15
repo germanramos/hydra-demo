@@ -11,7 +11,7 @@ Instances = []
 # Define hydra servers
 #
 def hydraProbeForHydraServer(cloud, prize, name, domain)
-  return hydraProbeProvisionV2(cloud, 2, 2, prize, name, "hydra", "8080", name, "/var/run/hydra_server_api.pid", domain,"http")
+  return hydraProbeProvisionV3(cloud, 2, 2, prize, name, "hydra", "8080", name, "/var/run/hydra.pid", domain, "http")
 end
 
 hydraPeers=""
@@ -23,7 +23,7 @@ for i in 1..NUM_HYDRA_SERVERS
       :default => {
         "provisions" => [
           {"path" => "./vagrant-deploy-common/scripts/updatedns.sh","args" => "#{name}"},
-          {"path" => "scripts/hydraServer.sh", "args" => "#{name} #{hydraPeers}"},
+          {"path" => "scripts/hydra.sh", "args" => "#{name} #{hydraPeers}"},
           {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 8080 8080" },
           {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 8443 8443" },
           {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 9099 9099" }

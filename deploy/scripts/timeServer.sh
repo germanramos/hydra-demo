@@ -13,17 +13,17 @@ sudo cp /vagrant/scripts/startup/stress /etc/init.d && sudo chmod a+x /etc/init.
 sudo chmod 777 /opt
 cd /opt
 
-# Clone Hydra repositories and checkout a specific tag
+# Clone hydra-demo repository
 export GIT_SSH=/vagrant/vagrant-deploy-common/scripts/git_ssh.sh
 sudo chmod a+x $GIT_SSH
 rm -rf /opt/hydra-demo
-echo ssh cloning hydra_server.git...
-cd /opt && git clone -b etcd git@github.com:innotech/hydra-demo.git && cd /opt/hydra-demo
+echo ssh cloning hydra-demo.git...
+cd /opt && git clone -b hydra-go git@github.com:innotech/hydra-demo.git && cd /opt/hydra-demo
 # && git checkout tags/latest
 cd /opt/hydra-demo/time/hydra-node && npm install
 cd /opt/hydra-demo/time && npm install
 
-# Create Hydra user
+# Create time user
 echo "Creating user"
 createExecUser time /opt/hydra-demo/time
 echo "Ending user"
