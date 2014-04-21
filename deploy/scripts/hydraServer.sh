@@ -51,6 +51,17 @@ echo "Creating user"
 createExecUser hydra /opt/hydra_server /opt/etcd
 echo "Ending user"
 
+# Auto restart hydra_client_api (it rewrite log file)
+alreadyDone=$(crontab -l | grep hydra_client_api |  wc -l)
+if [[ "$alreadyDone" < 1 ]]; then
+	line="0 4 * * *  /etc/init.d/hydra_client_api restart"
+    (crontab -l; echo "$line" ) | crontab -
+	echo "[CRONTAB]: Crontab updated"
+else
+	echo "[CRONTAB]: Crontab already updated"
+fi
+
+# Start up scripts
 sudo chkconfig hydra_server_api on
 sudo chkconfig hydra_client_api on
 sudo chkconfig etcd on
