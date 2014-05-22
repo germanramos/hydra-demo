@@ -1,0 +1,16 @@
+[{
+	"hydra": {
+		"Balancers": {
+			"RoundRobin": {	
+				"simple": "OK"
+			}
+		}
+	},
+	"time": {
+		"Balancers": {
+			"RoundRobin": {	
+				"simple": "OK"
+			}
+		}
+	}
+}]

@@ -1,0 +1,56 @@
+default:
+  attributes:
+    prefix: hydra-v3-demo
+    private_key_path: ~/pems/innotechdev.pem
+    username: innotechdev
+  scripts:
+    pre-provision:
+      - source: ./scripts
+        target: /tmp/
+      - source: ./common
+        target: /tmp/
+  providers:
+    aws:
+      attributes:
+        instance_type: t1.micro
+      scripts:
+        pre-provision:
+          - remote_path: sudo /tmp/common/routes_allregions.sh
+      regions:
+        eu-west-1a: # Ireland
+          attributes:
+            ami: ami-4b7fbe3c # centos-base-v8
+            keypair: vagrant-aws-ireland
+            security_groups:
+              - sg-576c7635
+            subnet_id: subnet-be457fca
+        us-west-2b:
+          attributes:
+            ami: ami-5389f863 # centos-base-v8
+            keypair: vagrant-aws-oregon
+            security_groups:
+              - sg-88283cea # awsoregon
+            subnet_id: subnet-ef757e8d
+    gce:
+      attributes:
+        instance_type: f1-micro
+      regions:
+        europe-west1-a:
+          attributes:
+            image_name: centos-base-v7 # centos-base-v7 TODO: update to v8
+            network: liberty-gce
+
+hydra:
+  attributes:
+    name: "%{prefix}-server-%{index}"
+  scripts:
+    provision:
+      - remote_path: sudo /tmp/common/updatedns.sh
+        args: "%{name}"
+      - remote_path: sudo /tmp/scripts/hydraServer.sh
+        args: "%{name} %{prefix}-server-0"
+
+#          {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 8080 8080" },
+#          {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 8443 8443" },
+#          {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 9099 9099" }
+
