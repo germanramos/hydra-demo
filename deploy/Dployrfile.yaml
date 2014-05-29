@@ -24,6 +24,8 @@ default:
             security_groups:
               - sg-576c7635
             subnet_id: subnet-be457fca
+            domain: aws-ireland.innotechapp.com
+            hydra-index: 0 
         us-west-2b:
           attributes:
             ami: ami-5389f863 # centos-base-v8
@@ -31,6 +33,8 @@ default:
             security_groups:
               - sg-88283cea # awsoregon
             subnet_id: subnet-ef757e8d
+            domain: aws-oregon.innotechapp.com
+            hydra-index: 1
     gce:
       attributes:
         instance_type: f1-micro
@@ -39,18 +43,41 @@ default:
           attributes:
             image_name: centos-base-v7 # centos-base-v7 TODO: update to v8
             network: liberty-gce
-
+            domain: gce.innotechapp.com
+            hydra_index: 2
 hydra:
   attributes:
     name: "%{prefix}-server-%{index}"
+    ##WORKAROUND
+    domain: aws-ireland.innotechapp.com
   scripts:
     provision:
       - remote_path: sudo /tmp/common/updatedns.sh
         args: "%{name}"
       - remote_path: sudo /tmp/scripts/hydraServer.sh
         args: "%{name} %{prefix}-server-0"
+      - remote_path: sudo /tmp/scripts/hydraProbe.sh
+        args: "%{name} hydra http://%{name}.%{domain}:7781 7781 3 amazon http://localhost:7771"      
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 7771 7771" # hydra private port
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 7781 7781" # hydra public port
 
-#          {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 8080 8080" },
-#          {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 8443 8443" },
-#          {"path" => "./vagrant-deploy-common/scripts/redirectTraffic.sh", "args"  => "#{name} 9099 9099" }
-
+time:
+  attributes:
+    name: "%{prefix}-time-%{index}"
+    ##WORKAROUND
+    domain: aws-ireland.innotechapp.com
+    hydra_index: 0
+  scripts:
+    provision:
+      - remote_path: sudo /tmp/common/updatedns.sh
+        args: "%{name}"
+      - remote_path: sudo /tmp/scripts/timeServer.sh
+        args: "%{name} %{prefix}-server-%{index}"
+      - remote_path: sudo /tmp/scripts/hydraProbe.sh
+        args: "%{name} time http://%{name}.%{domain}:8080 8080 3 amazon http://%{prefix}-server-%{hydra_index}:7771"
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 8080 8080" # time service port
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 5000 5000" # stress service port
