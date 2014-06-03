@@ -11,8 +11,8 @@ wget https://github.com/innotech/hydra-worker-round-robin/releases/download/v1.0
 wget https://github.com/innotech/hydra-worker-map-by-limit/releases/download/v1.0.0/hydra-worker-map-by-limit-1-0.x86_64.rpm
 wget https://github.com/innotech/hydra-worker-sort-by-number/releases/download/v1.0.0/hydra-worker-sort-by-number-1-0.x86_64.rpm
 wget https://github.com/innotech/hydra-worker-map-sort/releases/download/v1.0.0/hydra-worker-map-sort-1-0.x86_64.rpm
-
-sudo yum install -y libzmq3-3.2.2-13.1.x86_64.rpm hydra-3-0.x86_64.rpm hydra-worker-round-robin-1-0.x86_64.rpm hydra-worker-map-by-limit-1-0.x86_64.rpm hydra-worker-sort-by-number-1-0.x86_64.rpm hydra-worker-map-sort-1-0.x86_64.rpm #python-psutil-0.6.1-1.el6.x86_64.rpm hydra-basic-probe-2-0.noarch.rpm
+sudo yum remove -y hydra-3-0 hydra-worker-round-robin-1-0 hydra-worker-map-by-limit-1-0 hydra-worker-sort-by-number-1-0 hydra-worker-map-sort-1-0 
+sudo yum install -y libzmq3-3.2.2-13.1.x86_64.rpm hydra-3-0.x86_64.rpm hydra-worker-round-robin-1-0.x86_64.rpm hydra-worker-map-by-limit-1-0.x86_64.rpm hydra-worker-sort-by-number-1-0.x86_64.rpm hydra-worker-map-sort-1-0.x86_64.rpm
 cp /tmp/scripts/config/hydra.conf /etc/hydra/
 
 sed -i "s/#{INSTANCE_NAME}/${INSTANCE_NAME}/g" /etc/hydra/hydra.conf
@@ -21,16 +21,13 @@ then # Is master
 	cp /tmp/scripts/config/apps.json /etc/hydra/
 	sed -i 's/"#{MASTER}:7701"//g' /etc/hydra/hydra.conf
 else # Is slave
-	### TODO: This should not be necessary in slaves
-	cp /tmp/scripts/config/apps.json /etc/hydra/
-	### End TODO
 	sed -i "s/#{MASTER}/${MASTER}/g" /etc/hydra/hydra.conf
 fi
 
 sudo rm -rf /usr/local/hydra/snapshot /usr/local/hydra/log /usr/local/hydra/conf 
 
 # Start up scripts
-for i in hydra hydra-worker-map-by-limit hydra-worker-map-sort hydra-worker-round-robin hydra-worker-sort-by-number #hydra-basic-probe
+for i in hydra hydra-worker-map-by-limit hydra-worker-map-sort hydra-worker-round-robin hydra-worker-sort-by-number
 do  
 	sudo chkconfig $i on
 	sudo /etc/init.d/$i restart

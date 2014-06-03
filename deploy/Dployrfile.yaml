@@ -59,11 +59,14 @@ hydra:
       - remote_path: sudo /tmp/scripts/hydraServer.sh
         args: "%{name} %{prefix}-server-0"
       - remote_path: sudo /tmp/scripts/hydraProbe.sh
-        args: "%{name} hydra http://%{name}.%{domain}:7781 7781 %{cost} amazon http://localhost:7771"      
+        args: "%{name} hydra http://%{name}.%{domain}:7781 7781 %{cost} ${provider}-${region} http://localhost:7771"      
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 7771 7771" # hydra private port
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 7781 7781" # hydra public port
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 9099 9099" # hydra probe demo port
+
 
 time:
   attributes:
@@ -72,9 +75,11 @@ time:
     provision:
       - remote_path: sudo /tmp/scripts/timeServer.sh
         args: "%{name} %{prefix}-server-%{index}"
-      - remote_path: sudo /tmp/scripts/hydraProbe.sh∫
-        args: "%{name} time http://%{name}.%{domain}:8080 8080 %{cost} amazon http://%{prefix}-server-%{hydra_index}:7771"
+      - remote_path: sudo /tmp/scripts/hydraProbe.sh
+        args: "%{name} time http://%{name}.%{domain}:8080 8080 %{cost} ${provider}-${region} http://%{prefix}-server-%{hydra_index}:7771"
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 8080 8080" # time service port
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 5000 5000" # stress service port
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 9099 9099" # hydra probe demo port
