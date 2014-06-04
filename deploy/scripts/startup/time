@@ -11,7 +11,7 @@
 APP_NAME=time
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/node
-DAEMON_ARGS="/opt/hydra-demo/time/server.js 0.0.0.0 8080 5000"
+DAEMON_ARGS="/opt/hydra-demo/time/server.js 0.0.0.0 8080 2000 4000 2000"
 RUNDIR=/opt/hydra-demo/time
 USER=root
 GROUP=root

@@ -109,7 +109,7 @@ function postToTopic(method, errorCode, duration) {
 	data = {
 		"appName": "time",
 		"method": "getTime",
-		"status": errorCode == 200 ? "6" : "3",
+		"status": errorCode,
 		"responseTime" : duration.toString()
 	};
 	console.log("Posting to topic:", data);	
@@ -141,7 +141,7 @@ function makeRequest() {
 	request(options, function(error, response, body) {
 		conns--;
 		var duration = Date.now() - start;
-		postToTopic("time", response.statusCode, duration);
+		postToTopic("time", response && response.statusCode && response.statusCode == 200 ? "6" : "3", duration);
 		var customWait = 0;
 		if (response && response.statusCode && response.statusCode == 200) {
 			customWait = randomWait;
