@@ -105,14 +105,14 @@ function updateServers() {
 	if(!stop) setTimeout(updateServers, hydraRefreshWait);
 }
 
-function postToTopic(method, errorCode) {
+function postToTopic(method, errorCode, duration) {
 	data = {
 		"appName": "time",
 		"method": "getTime",
 		"status": errorCode == 200 ? "6" : "3",
-		"responseTime" : "3000"
+		"responseTime" : duration.toString()
 	};
-	console.log("Posting to topic", data);	
+	console.log("Posting to topic:", data);	
 	request.post({
 		headers: {'content-type' : 'application/json'},
 		url:     'https://listener3.topicthunder.io',
@@ -137,9 +137,11 @@ function makeRequest() {
 		//agent: false
 	};
 	conns++;
+	var start = Date.now();
 	request(options, function(error, response, body) {
 		conns--;
-		postToTopic("time", response.statusCode);
+		var duration = Date.now() - start;
+		postToTopic("time", response.statusCode, duration);
 		var customWait = 0;
 		if (response && response.statusCode && response.statusCode == 200) {
 			customWait = randomWait;
