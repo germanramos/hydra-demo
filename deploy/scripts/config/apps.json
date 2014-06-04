@@ -8,6 +8,19 @@
 	},
 	"time": {
 		"Balancers": {
+			"MapByLimit": {
+				"limitAttr": "cpuLoad",
+				"limitValue": 90,
+				"mapSort": "normal"
+			},
+			"MapAndSort": {	
+				"mapAttr": "cloud",
+				"mapSort": ["aws-eu-west-1a", "gce-europe-west1-a", "aws-us-west-2b"]
+			},
+			"SortByNumber": {
+				"sortAttr": "cpuLoad",
+				"order": 0
+			},
 			"RoundRobin": {	
 				"simple": "OK"
 			}

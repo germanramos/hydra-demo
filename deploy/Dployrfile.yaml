@@ -65,6 +65,8 @@ hydra:
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 7781 7781" # hydra public port
       - remote_path: sudo /tmp/common/redirectTraffic.sh
+        args: "%{name} 7401 7401" # hydra etcd port
+      - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 9099 9099" # hydra probe demo port
 
 

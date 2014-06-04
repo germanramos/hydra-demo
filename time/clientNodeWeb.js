@@ -32,14 +32,16 @@ app.configure(function() {
 });
 
 app.get('/start/:connections', function(req, res){
-	var hydraServers = (req.query.hydras ? req.query.hydras.split(',') : ['http://hydra-demo-hydra1.gce.innotechapp.com:8080']);
+	var hydraServers = req.query.hydras.split(',');
 	service = req.query.app || 'time';
+	console.log("Start order: " + req.params.connections + " connections");
 	startRequests((parseInt(req.params.connections,10) || 1), hydraServers);
 	res.send(200, {host: req.headers.host, app: service, connections: conns, started: !stop});
 });
 
 app.get('/info', function(req, res){
 	res.send(200, {host: req.headers.host, app: service, connections: conns, started: !stop});
+    console.log("Info order");
 });
 
 app.get('/stop', function(req, res){
@@ -54,9 +56,9 @@ console.log('Stress-time listening on port', port);
 function startRequests(connections, hydraServers) {
 	console.log('Starting', connections, 'connections for', service, 'on', hydraServers);
 	stop = false;
-	console.log("HYDRASERVERS",hydraServers)
+	console.log("HYDRASERVERS", hydraServers);
 	hydra.config(hydraServers);
-	updateServers()
+	updateServers();
 
 	for ( var i = 0; i < connections; i++) {
 		setTimeout(makeRequest, Math.floor(Math.random()*randomWait));
@@ -103,6 +105,21 @@ function updateServers() {
 	if(!stop) setTimeout(updateServers, hydraRefreshWait);
 }
 
+function postToTopic(method, errorCode) {
+	data = {
+		appName: "time",
+		method: "getTime",
+		status: errorCode == 200 ? "6" : "3"
+	};
+	request.post({
+		headers: {'content-type' : 'application/x-www-form-urlencoded'},
+		url:     'https://listener3.topicthunder.io',
+		body:    data
+	}, function(error, response, body){
+	  console.log(body);
+	});
+}
+
 function makeRequest() {
 	//console.log("Making request")
 	if (servers === null || servers.length < 1) {
@@ -120,6 +137,7 @@ function makeRequest() {
 	conns++;
 	request(options, function(error, response, body) {
 		conns--;
+		postToTopic("time", response.statusCode);
 		var customWait = 0;
 		if (response && response.statusCode && response.statusCode == 200) {
 			customWait = randomWait;

@@ -13,7 +13,7 @@ export GIT_SSH=/tmp/common/git_ssh.sh
 sudo chmod a+x $GIT_SSH
 rm -rf /opt/hydra-demo
 echo ssh cloning hydra-demo.git...
-cd /opt && git clone -b etcd git@github.com:innotech/hydra-demo.git && cd /opt/hydra-demo
+cd /opt && git clone -b hydra-v3 git@github.com:innotech/hydra-demo.git && cd /opt/hydra-demo
 # && git checkout tags/latest
 cd /opt/hydra-demo/time/hydra-node && npm install
 cd /opt/hydra-demo/time && npm install
