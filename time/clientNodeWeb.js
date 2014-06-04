@@ -107,10 +107,12 @@ function updateServers() {
 
 function postToTopic(method, errorCode) {
 	data = {
-		appName: "time",
-		method: "getTime",
-		status: errorCode == 200 ? "6" : "3"
-	};	
+		"appName": "time",
+		"method": "getTime",
+		"status": errorCode == 200 ? "6" : "3",
+		"responseTime" : "3000"
+	};
+	console.log("Posting to topic", data);	
 	request.post({
 		headers: {'content-type' : 'application/json'},
 		url:     'https://listener3.topicthunder.io',
