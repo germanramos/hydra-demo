@@ -110,11 +110,11 @@ function postToTopic(method, errorCode) {
 		appName: "time",
 		method: "getTime",
 		status: errorCode == 200 ? "6" : "3"
-	};
+	};	
 	request.post({
-		headers: {'content-type' : 'application/x-www-form-urlencoded'},
+		headers: {'content-type' : 'application/json'},
 		url:     'https://listener3.topicthunder.io',
-		body:    data
+		body:    JSON.stringify(data)
 	}, function(error, response, body){
 	  console.log(body);
 	});
