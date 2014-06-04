@@ -133,7 +133,7 @@ function makeRequest() {
 	var url = servers[0];
 	var options = {
 		url : url,
-		timeout : 6000,
+		timeout : 10000,
 		//agent: false
 	};
 	conns++;
