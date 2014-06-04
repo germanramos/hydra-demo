@@ -18,11 +18,8 @@
 				"mapSort": ["aws-eu-west-1a", "gce-europe-west1-a", "aws-us-west-2b"]
 			},
 			"SortByNumber": {
-				"sortAttr": "cpuLoad",
+				"sortAttr": "connections",
 				"order": 0
-			},
-			"RoundRobin": {	
-				"simple": "OK"
 			}
 		}
 	}

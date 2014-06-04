@@ -15,7 +15,8 @@ default:
   providers:
     aws:
       attributes:
-        instance_type: t1.micro
+        #instance_type: t1.micro
+        instance_type: m1.small
       scripts:
         pre-provision:
           - remote_path: sudo /tmp/common/routes_allregions.sh
@@ -42,7 +43,8 @@ default:
             cost: 9
     gce:
       attributes:
-        instance_type: f1-micro
+        #instance_type: f1-micro
+        instance_type: g1-small
       regions:
         europe-west1-a:
           attributes:
