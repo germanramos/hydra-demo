@@ -46,7 +46,7 @@ default:
         #instance_type: f1-micro
         instance_type: g1-small
       regions:
-        europe-west1-a:
+        europe-west1-b:
           attributes:
             image_name: centos-base-v7 # centos-base-v7 TODO: update to v8
             network: liberty-gce
