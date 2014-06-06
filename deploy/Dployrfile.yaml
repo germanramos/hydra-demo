@@ -61,7 +61,7 @@ hydra:
       - remote_path: sudo /tmp/scripts/hydraServer.sh
         args: "%{name} %{prefix}-server-0"
       - remote_path: sudo /tmp/scripts/hydraProbe.sh
-        args: "%{name} hydra http://%{name}.%{domain}:7781 7781 %{cost} ${provider}-${region} http://localhost:7771"      
+        args: "%{name} hydra http://%{name}.%{domain}:7781 7781 %{cost} ${provider}-${region} http://localhost:7781"      
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 7771 7771" # hydra private port
       - remote_path: sudo /tmp/common/redirectTraffic.sh
@@ -80,7 +80,7 @@ time:
       - remote_path: sudo /tmp/scripts/timeServer.sh
         args: "%{name} %{prefix}-server-%{index}"
       - remote_path: sudo /tmp/scripts/hydraProbe.sh
-        args: "%{name} time http://%{name}.%{domain}:8080 8080 %{cost} ${provider}-${region} http://%{prefix}-server-%{hydra_index}:7771"
+        args: "%{name} time http://%{name}.%{domain}:8080 8080 %{cost} ${provider}-${region} http://%{prefix}-server-%{hydra_index}:7781"
       - remote_path: sudo /tmp/common/redirectTraffic.sh
         args: "%{name} 8080 8080" # time service port
       - remote_path: sudo /tmp/common/redirectTraffic.sh
