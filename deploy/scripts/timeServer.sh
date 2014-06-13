@@ -21,5 +21,6 @@ cd /opt/hydra-demo/time && npm install
 sudo chkconfig time on
 sudo chkconfig stress on
 
+sudo killall node #time stop does not work
 sudo /etc/init.d/time restart
 sudo /etc/init.d/stress restart
