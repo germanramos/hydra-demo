@@ -10,10 +10,10 @@ http.globalAgent.maxSockets = 100000;
 var port = parseInt(process.argv[2],10) || 5000;
 
 var service = "time",
-	hydraRefreshWait = 1000,
+	hydraRefreshWait = 500, //500
 	errorWait = 2000,
 	ajaxTimeout = 4000,
-	randomWait = 5000,
+	randomWait = 1000, //5000
 	blacklistTime = 5000,
 	servers = [],
 	blacklist = [],
