@@ -16,11 +16,10 @@ var delay
 function updateDelay() {
 	delay = minDelay + Math.random() * maxDelay;
 	console.log("Delay center changed to " + delay);
+	setTimeout(updateDelay, 10000);
 };
 
 updateDelay()
-
-setInterval(updateDelay, 10000);
 
 http.createServer(function(req, res) {
 	res.writeHead(200, {
