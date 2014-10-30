@@ -16,7 +16,7 @@
 				"mapSort": "normal"
 			},
 			{
-				"worker": "MapSort",
+				"worker": "MapAndSort",
 				"mapAttr": "cloud",
 				"mapSort": ["aws-eu-west-1a", "gce-europe-west1-b", "aws-us-west-2b"]
 			},

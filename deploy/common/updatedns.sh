@@ -105,7 +105,7 @@ fi
 
 # 5. Creamos el fichero para ejecutar nsupdate y darse de alta en el dns dinamico
 
-for DNS in 0 1 2 3 5
+for DNS in 0 1 3 5
 do
 
 echo "dns$DNS.$DOMAIN"
@@ -137,7 +137,7 @@ done
 if [ "$CLOUDID" -eq "110" ] || [ "$CLOUDID" -eq "112" ] || [ "$CLOUDID" -eq "113" ];
 then
 
-for DNS in 0 1 2 3 5
+for DNS in 0 1 3 5
 do
 
 cat > $HOSTNAME2.txt << EOF
