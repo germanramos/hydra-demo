@@ -56,7 +56,11 @@ module.exports =  function () {
 		request.get(appServers['hydra'].list[0] + '/app/hydra',
 		function(err, res, data){
 			if(!err && res.statusCode === _HTTP_SUCCESS) {
-				data = JSON.parse(data);
+				try {
+					data = JSON.parse(data);
+				} catch(e) {
+					data = []
+				}
 				if (data.length > 0) {
 					appServers['hydra'].list = data;
 					appServers['hydra'].lastUpdate = Date.now();
@@ -90,7 +94,11 @@ module.exports =  function () {
 			function(err, res, data){
 				if(!err && res.statusCode === _HTTP_SUCCESS) {
 					// Store the app in the local cache
-					data = JSON.parse(data);
+					try {
+						data = JSON.parse(data);
+					} catch(e) {
+						data = []
+					}
 					appServers[appId] = {
 						list: data,
 						lastUpdate: Date.now()
